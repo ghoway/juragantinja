@@ -26,10 +26,13 @@ body {
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
 
-/* Animasi motion memakai translate X, yang ikut menambah lebar scroll area.
-   clip (bukan hidden) memotongnya tanpa membuat scroll container baru,
-   jadi position: sticky/fixed tetap aman. */
-html,
-body {
-  overflow-x: clip;
+/* PENTING: fail-safe.
+   Motion menulis `opacity: 0` + `transform` langsung ke HTML hasil SSR, jadi
+   kalau JS tidak jalan / React gagal hydrate, seluruh section akan kosong putih
+   permanen. Aturan ini menampakkan semua konten sampai React benar-benar
+   hydrate (class `js-hydrated` dipasang oleh <RevealGuard />), lalu animation
+   mulai berjalan seperti biasa. */
+html:not(.js-hydrated) main * {
+  opacity: 1 !important;
+  transform: none !important;
 }

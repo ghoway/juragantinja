@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
+import RevealGuard from "@/components/reveal-guard";
 import { priceList, services } from "@/lib/constants";
 import {
   absoluteUrl,
@@ -194,7 +195,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans">
+        <RevealGuard />
+        {children}
+      </body>
     </html>
   );
 }
