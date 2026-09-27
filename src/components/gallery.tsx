@@ -62,10 +62,15 @@ export default function Gallery() {
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {galleryImages.map((img, i) => (
-            <motion.button
-              type="button"
+            <motion.a
               key={img.src}
-              onClick={() => setIndex(i)}
+              href={img.src}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => {
+                e.preventDefault();
+                setIndex(i);
+              }}
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -80,8 +85,8 @@ export default function Gallery() {
                 className="object-contain p-2 transition-transform duration-300 group-hover:scale-105"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
-              <span className="absolute inset-0 bg-primary/0 transition-colors group-hover:bg-primary/40" />
-            </motion.button>
+              <span className="absolute inset-0 rounded-2xl bg-primary/0 transition-colors group-hover:bg-primary/40" />
+            </motion.a>
           ))}
         </div>
       </div>
