@@ -60,7 +60,7 @@ export default function Gallery() {
           Klik salah satu gambar untuk melihat lebih detail
         </motion.p>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="gallery-grid mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {galleryImages.map((img, i) => (
             <motion.a
               key={img.src}

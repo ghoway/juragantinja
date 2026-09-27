@@ -1,13 +1,11 @@
 @import "tailwindcss";
 
+/* ============================================
+   V1 THEME TOKENS (DO NOT CHANGE - affects v1)
+   ============================================ */
 :root {
   --background: #ffffff;
   --foreground: #1e293b;
-}
-
-.dark {
-  --background: #0f172a;
-  --foreground: #e2e8f0;
 }
 
 @theme inline {
@@ -30,85 +28,6 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
-
-/* =========================================
-   DARK MODE OVERRIDES
-   ========================================= */
-
-/* Global section backgrounds */
-.dark .bg-bg-alt { background-color: #1e293b !important; }
-
-.dark .bg-white { background-color: #1e293b !important; }
-
-/* Header blur glass effect */
-.header-glass {
-  background-color: var(--background);
-}
-.dark .header-glass {
-  background-color: rgba(15, 23, 42, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-/* Cards (why-us, services, pricing) */
-.dark .bg-bg-alt,
-.dark [class*="bg-white"] {
-  --tw-bg-opacity: 1;
-}
-
-/* Pricing table */
-.dark .border-gray-100 { border-color: #334155 !important; }
-
-.dark [class*="bg-primary/"] {
-  background-color: rgba(30, 58, 95, 0.8) !important;
-}
-
-/* CTA section */
-.dark .bg-primary { background-color: #1e3a5f !important; }
-.dark .bg-primary-dark { background-color: #0f2237 !important; }
-
-/* Footer */
-.dark footer.bg-primary-dark { background-color: #0a1628 !important; }
-
-/* Floating WhatsApp */
-.dark .bg-\[\#25D366\]:hover { filter: brightness(1.1); }
-
-/* Pricing mobile cards */
-.dark .ring-1 { --tw-ring-color: #334155; }
-
-/* Mobile menu drawer */
-.mobile-drawer {
-  animation: drawer-slide-in 0.2s ease-out;
-}
-@keyframes drawer-slide-in {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* =========================================
-   FAIL-SAFE (no-JS / hydration)
-   ========================================= */
-
-/* PENTING: fail-safe.
-   Motion menulis `opacity: 0` + `transform` langsung ke HTML hasil SSR, jadi
-   kalau JS tidak jalan / React gagal hydrate, elemen mana pun yang di-animate
-   akan hilang permanen (termasuk tombol WhatsApp mengambang, yang ada di luar
-   <main>). Aturan ini menampakkan SELURUH body sampai React benar-benar
-   hydrate (class `js-hydrated` dipasang oleh <RevealGuard />). */
-html:not(.js-hydrated) body * {
-  opacity: 1 !important;
-  transform: none !important;
-}
-
-/* =========================================
-   WHATSAPP BUTTON ANIMATION (CSS only)
-   ========================================= */
 
 /* Animasi tombol WhatsApp pakai CSS, bukan JS, supaya tetap jalan di perangkat
    yang gagal load script-nya. */
@@ -154,6 +73,21 @@ html:not(.js-hydrated) body * {
   animation: wa-bubble-in 0.35s ease-out 1.6s both;
 }
 
+/* Mobile drawer slide-in animation */
+.mobile-drawer {
+  animation: drawer-slide-in 0.2s ease-out;
+}
+@keyframes drawer-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .wa-wiggle {
     animation: none;
@@ -162,6 +96,73 @@ html:not(.js-hydrated) body * {
     animation: none;
   }
   .mobile-drawer {
+    animation: none;
+  }
+}
+
+/* ============================================
+   V2 ANIMATIONS (CSS-only, works on Vercel)
+   ============================================ */
+
+/* Hero entrance keyframes */
+/* Hero background zoom */
+.v2-hero-zoom {
+  animation: heroZoom 20s ease-in-out infinite alternate;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroZoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+/* Scroll reveal: elements start hidden, get `.revealed` class via tiny JS */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children inside .reveal-stagger */
+.reveal-stagger .reveal:nth-child(2) { transition-delay: 0.1s; }
+.reveal-stagger .reveal:nth-child(3) { transition-delay: 0.2s; }
+.reveal-stagger .reveal:nth-child(4) { transition-delay: 0.3s; }
+
+/* Section hover lift */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .v2-hero-zoom {
     animation: none;
   }
 }
