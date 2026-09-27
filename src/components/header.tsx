@@ -1,11 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Menu, X, Phone } from "lucide-react";
 import { navLinks } from "@/lib/constants";
 
 export default function Header() {
-  const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const wa = process.env.NEXT_PUBLIC_APP_WHATSAPP ?? "";
   const appName = process.env.NEXT_PUBLIC_APP_NAME ?? "Juragan Tinja";
@@ -20,14 +19,21 @@ export default function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-shadow ${scrolled ? "shadow-md bg-white/95 backdrop-blur-sm" : "bg-white"}`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        <a href="#beranda" className="min-w-0 truncate text-xl font-bold tracking-tight text-primary">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+        <a
+          href="#beranda"
+          className="min-w-0 truncate text-xl font-bold tracking-tight text-primary"
+        >
           {appName}
         </a>
 
         <nav className="hidden items-center gap-6 md:flex">
           {navLinks.map((l) => (
-            <a key={l.href} href={l.href} className="text-sm font-medium text-text-light transition-colors hover:text-primary">
+            <a
+              key={l.href}
+              href={l.href}
+              className="text-sm font-medium text-text-light transition-colors hover:text-primary"
+            >
               {l.label}
             </a>
           ))}
@@ -42,38 +48,40 @@ export default function Header() {
           </a>
         </nav>
 
-        <button
-          onClick={() => setOpen(!open)}
-          className="shrink-0 md:hidden p-2 text-primary"
-          aria-label="Toggle menu"
-        >
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
-      </div>
+        {/* Menu mobile pakai <details> supaya tetap bisa dibuka walau JS gagal
+            dimuat. onClick di bawah hanya progressive enhancement (menutup
+            menu setelah link diklik). */}
+        <details className="group relative shrink-0 md:hidden">
+          <summary className="flex cursor-pointer list-none items-center justify-center rounded-lg p-2 text-primary marker:content-none [&::-webkit-details-marker]:hidden">
+            <span className="sr-only">Buka menu navigasi</span>
+            <Menu className="h-6 w-6 group-open:hidden" />
+            <X className="hidden h-6 w-6 group-open:block" />
+          </summary>
 
-      {open && (
-        <nav className="border-t border-gray-100 bg-white px-4 pb-4 md:hidden">
-          {navLinks.map((l) => (
+          <nav className="absolute right-0 z-50 mt-2 w-56 rounded-2xl border border-gray-100 bg-white p-3 shadow-xl">
+            {navLinks.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={(e) => e.currentTarget.closest("details")?.removeAttribute("open")}
+                className="block rounded-lg px-3 py-2.5 text-sm font-medium text-text-light transition-colors hover:bg-bg-alt hover:text-primary"
+              >
+                {l.label}
+              </a>
+            ))}
             <a
-              key={l.href}
-              href={l.href}
-              onClick={() => setOpen(false)}
-              className="block py-3 text-sm font-medium text-text-light transition-colors hover:text-primary"
+              href={`https://wa.me/${wa}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.currentTarget.closest("details")?.removeAttribute("open")}
+              className="mt-2 flex items-center justify-center gap-2 rounded-full bg-accent px-4 py-2.5 text-sm font-semibold text-white"
             >
-              {l.label}
+              <Phone className="h-4 w-4" />
+              Hubungi Kami
             </a>
-          ))}
-          <a
-            href={`https://wa.me/${wa}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-2 flex items-center justify-center gap-2 rounded-full bg-accent px-4 py-2.5 text-sm font-semibold text-white"
-          >
-            <Phone className="h-4 w-4" />
-            Hubungi Kami
-          </a>
-        </nav>
-      )}
+          </nav>
+        </details>
+      </div>
     </header>
   );
 }

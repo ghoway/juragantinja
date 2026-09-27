@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { MessageCircle, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
+const waLink = (number: string) =>
+  `https://wa.me/${number}?text=${encodeURIComponent("Halo, saya ingin menanyakan jasa sedot WC.")}`;
+
 export default function FloatingWa() {
   const wa = process.env.NEXT_PUBLIC_APP_WHATSAPP ?? "";
   const [showBubble, setShowBubble] = useState(false);
@@ -45,31 +48,23 @@ export default function FloatingWa() {
         )}
       </AnimatePresence>
 
-      <motion.a
-        href={`https://wa.me/${wa}?text=${encodeURIComponent("Halo, saya ingin menanyakan jasa sedot WC.")}`}
+      <a
+        href={waLink(wa)}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Hubungi via WhatsApp"
-        initial={{ opacity: 0, scale: 0.6 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.4, type: "spring", stiffness: 260, damping: 18 }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="group flex h-14 items-center rounded-full bg-[#25D366] pr-3.5 pl-3.5 shadow-lg transition-[padding] duration-300 hover:pr-5"
+        className="group flex h-14 items-center rounded-full bg-[#25D366] pr-3.5 pl-3.5 text-white shadow-lg transition-[padding,transform] duration-300 hover:scale-105 hover:pr-5 active:scale-95"
       >
         <span className="relative flex h-8 w-8 items-center justify-center">
           <span className="absolute inset-0 animate-ping rounded-full bg-[#25D366]/50" />
-          <motion.span
-            animate={{ rotate: [0, -12, 12, -8, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 2.4, repeatDelay: 3 }}
-          >
-            <MessageCircle className="h-7 w-7 text-white" />
-          </motion.span>
+          <span className="wa-wiggle">
+            <MessageCircle className="h-7 w-7" />
+          </span>
         </span>
-        <span className="hidden max-w-0 overflow-hidden text-sm font-semibold whitespace-nowrap text-white opacity-0 transition-all duration-300 group-hover:ml-3 group-hover:max-w-[10rem] group-hover:opacity-100 sm:block">
+        <span className="max-w-[11rem] pl-3 text-sm font-semibold whitespace-nowrap sm:max-w-0 sm:pl-0 sm:opacity-0 sm:transition-all sm:duration-300 sm:group-hover:ml-3 sm:group-hover:max-w-[11rem] sm:group-hover:opacity-100">
           Chat via WhatsApp
         </span>
-      </motion.a>
+      </a>
     </div>
   );
 }

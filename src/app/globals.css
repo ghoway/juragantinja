@@ -28,11 +28,44 @@ body {
 
 /* PENTING: fail-safe.
    Motion menulis `opacity: 0` + `transform` langsung ke HTML hasil SSR, jadi
-   kalau JS tidak jalan / React gagal hydrate, seluruh section akan kosong putih
-   permanen. Aturan ini menampakkan semua konten sampai React benar-benar
-   hydrate (class `js-hydrated` dipasang oleh <RevealGuard />), lalu animation
-   mulai berjalan seperti biasa. */
-html:not(.js-hydrated) main * {
+   kalau JS tidak jalan / React gagal hydrate, elemen mana pun yang di-animate
+   akan hilang permanen (termasuk tombol WhatsApp mengambang, yang ada di luar
+   <main>). Aturan ini menampakkan SELURUH body sampai React benar-benar
+   hydrate (class `js-hydrated` dipasang oleh <RevealGuard />). */
+html:not(.js-hydrated) body * {
   opacity: 1 !important;
   transform: none !important;
+}
+
+/* Animasi tombol WhatsApp pakai CSS, bukan JS, supaya tetap jalan di perangkat
+   yang gagal load script-nya. */
+@keyframes wa-wiggle {
+  0%,
+  55%,
+  100% {
+    transform: rotate(0deg);
+  }
+  60% {
+    transform: rotate(-14deg);
+  }
+  66% {
+    transform: rotate(12deg);
+  }
+  72% {
+    transform: rotate(-9deg);
+  }
+  78% {
+    transform: rotate(7deg);
+  }
+}
+
+.wa-wiggle {
+  animation: wa-wiggle 6s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-wiggle {
+    animation: none;
+  }
 }
