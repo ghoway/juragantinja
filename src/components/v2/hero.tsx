@@ -14,7 +14,7 @@ export default function Hero() {
           src="/image/hero-truck.jpg"
           alt="Truck Juragan Tinja"
           fill
-          className="object-cover animate-[heroZoom_20s_ease-in-out_infinite_alternate]"
+          className="object-cover v2-hero-zoom"
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/30" />

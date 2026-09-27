@@ -105,6 +105,11 @@ body {
    ============================================ */
 
 /* Hero entrance keyframes */
+/* Hero background zoom */
+.v2-hero-zoom {
+  animation: heroZoom 20s ease-in-out infinite alternate;
+}
+
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -157,7 +162,7 @@ body {
     transform: none;
     transition: none;
   }
-  .animate-\[heroZoom_20s_ease-in-out_infinite_alternate\] {
+  .v2-hero-zoom {
     animation: none;
   }
 }

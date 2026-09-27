@@ -13,12 +13,15 @@ export default function Pricing() {
 
         <div className="mx-auto max-w-3xl space-y-4">
           {priceList.map((p) => (
-            <div key={p.service} className="flex items-center justify-between rounded-xl border border-gray-200 bg-white px-6 py-5 hover-lift">
-              <div>
+            <div
+              key={p.service}
+              className="flex flex-col gap-2 rounded-xl border border-gray-200 bg-white px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-5 hover-lift"
+            >
+              <div className="min-w-0">
                 <p className="font-bold text-[#1a1a1a]">{p.service}</p>
                 {p.note && <p className="mt-0.5 text-xs text-[#888]">{p.note}</p>}
               </div>
-              <p className="text-xl font-extrabold text-[#1976D2]">{p.price}</p>
+              <p className="shrink-0 text-lg font-extrabold text-[#1976D2] sm:text-xl">{p.price}</p>
             </div>
           ))}
         </div>
