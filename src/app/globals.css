@@ -2,7 +2,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1e293b;
 }
 
 @theme inline {
@@ -10,17 +10,26 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary: #1e3a5f;
+  --color-primary-dark: #152a45;
+  --color-primary-light: #2d5a8e;
+  --color-accent: #f59e0b;
+  --color-accent-dark: #d97706;
+  --color-bg-alt: #f8fafc;
+  --color-text: #1e293b;
+  --color-text-light: #64748b;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Animasi motion memakai translate X, yang ikut menambah lebar scroll area.
+   clip (bukan hidden) memotongnya tanpa membuat scroll container baru,
+   jadi position: sticky/fixed tetap aman. */
+html,
+body {
+  overflow-x: clip;
 }
