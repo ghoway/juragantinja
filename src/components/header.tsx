@@ -1,14 +1,26 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Menu, X, Phone } from "lucide-react";
 import { navLinks } from "@/lib/constants";
 
 export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
   const wa = process.env.NEXT_PUBLIC_APP_WHATSAPP ?? "";
   const appName = process.env.NEXT_PUBLIC_APP_NAME ?? "Juragan Tinja";
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-shadow ${
+        scrolled ? "shadow-md bg-white/95 backdrop-blur-sm" : "bg-white"
+      }`}
+    >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
         <a
           href="#beranda"

@@ -185,6 +185,8 @@ const jsonLd = {
   ],
 };
 
+import RevealGuard from "@/components/reveal-guard";
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -200,7 +202,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans">
+        <RevealGuard />
+        {children}
+      </body>
     </html>
   );
 }

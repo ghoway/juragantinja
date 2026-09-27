@@ -29,15 +29,14 @@ export default function FloatingWa() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Hubungi via WhatsApp"
-        className="group flex h-14 items-center rounded-full bg-[#25D366] pr-3.5 pl-3.5 text-white shadow-lg transition-[padding,transform] duration-300 hover:scale-105 hover:pr-5 active:scale-95"
+        className="group flex h-14 items-center justify-center rounded-full bg-[#25D366] shadow-lg transition-transform duration-300 hover:scale-105 active:scale-95"
       >
         <span className="relative flex h-8 w-8 items-center justify-center">
           <span className="absolute inset-0 animate-ping rounded-full bg-[#25D366]/50" />
           <span className="wa-wiggle">
-            <MessageCircle className="h-7 w-7" />
+            <MessageCircle className="h-7 w-7 text-white" />
           </span>
         </span>
-        <span className="sr-only">Chat via WhatsApp</span>
       </a>
     </div>
   );

@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* ============================================
+   V1 THEME TOKENS (DO NOT CHANGE - affects v1)
+   ============================================ */
 :root {
   --background: #ffffff;
   --foreground: #1e293b;
@@ -106,4 +109,15 @@ html:not(.js-hydrated) body * {
   .mobile-drawer {
     animation: none;
   }
+}
+
+/* ============================================
+   V2 DARK MODE (scoped to .v2 class)
+   V2 components use Tailwind dark: directly,
+   these are overrides for specific elements.
+   ============================================ */
+.dark .v2-header {
+  background-color: rgba(28, 25, 23, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
