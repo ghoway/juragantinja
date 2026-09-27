@@ -37,9 +37,7 @@ export default function FloatingWa() {
             <MessageCircle className="h-7 w-7" />
           </span>
         </span>
-        <span className="max-w-[11rem] pl-3 text-sm font-semibold whitespace-nowrap sm:max-w-0 sm:pl-0 sm:opacity-0 sm:transition-all sm:duration-300 sm:group-hover:ml-3 sm:group-hover:max-w-[11rem] sm:group-hover:opacity-100">
-          Chat via WhatsApp
-        </span>
+        <span className="sr-only">Chat via WhatsApp</span>
       </a>
     </div>
   );

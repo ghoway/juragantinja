@@ -31,7 +31,7 @@ export default function Coverage() {
 
         <div className="mt-12 grid gap-8 lg:grid-cols-2">
           <div>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            <div className="coverage-cards grid grid-cols-2 gap-3 sm:grid-cols-3">
               {coverageAreas.map((area, i) => (
                 <motion.div
                   key={area}

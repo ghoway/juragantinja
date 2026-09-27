@@ -12,7 +12,6 @@ import {
   shareImageSize,
   site,
 } from "@/lib/site";
-import ThemeProvider from "@/lib/providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -190,16 +189,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang={site.language}
-      suppressHydrationWarning
       className={`${geistSans.variable} h-full antialiased scroll-smooth`}
     >
       <head>
-        {/* Theme detection — runs before paint to prevent flash */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark')}catch(e){}`,
-          }}
-        />
         <link rel="preconnect" href="https://maps.google.com" />
         <script
           type="application/ld+json"
@@ -208,9 +200,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           }}
         />
       </head>
-      <body suppressHydrationWarning className="min-h-full flex flex-col font-sans">
-        <ThemeProvider>{children}</ThemeProvider>
-      </body>
+      <body className="min-h-full flex flex-col font-sans">{children}</body>
     </html>
   );
 }
