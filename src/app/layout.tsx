@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
-import RevealGuard from "@/components/reveal-guard";
 import { priceList, services } from "@/lib/constants";
 import {
   absoluteUrl,
@@ -13,6 +12,7 @@ import {
   shareImageSize,
   site,
 } from "@/lib/site";
+import ThemeProvider from "@/lib/providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,7 +20,10 @@ const geistSans = Geist({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#1e3a5f",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#1e3a5f" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
+  ],
   width: "device-width",
   initialScale: 1,
 };
@@ -185,8 +188,18 @@ const jsonLd = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang={site.language} className={`${geistSans.variable} h-full antialiased scroll-smooth`}>
+    <html
+      lang={site.language}
+      suppressHydrationWarning
+      className={`${geistSans.variable} h-full antialiased scroll-smooth`}
+    >
       <head>
+        {/* Theme detection — runs before paint to prevent flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark')}catch(e){}`,
+          }}
+        />
         <link rel="preconnect" href="https://maps.google.com" />
         <script
           type="application/ld+json"
@@ -195,9 +208,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col font-sans">
-        <RevealGuard />
-        {children}
+      <body suppressHydrationWarning className="min-h-full flex flex-col font-sans">
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

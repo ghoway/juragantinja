@@ -1,52 +1,28 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { MessageCircle, X } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
 
 const waLink = (number: string) =>
   `https://wa.me/${number}?text=${encodeURIComponent("Halo, saya ingin menanyakan jasa sedot WC.")}`;
 
 export default function FloatingWa() {
   const wa = process.env.NEXT_PUBLIC_APP_WHATSAPP ?? "";
-  const [showBubble, setShowBubble] = useState(false);
-
-  useEffect(() => {
-    const open = setTimeout(() => setShowBubble(true), 2500);
-    const close = setTimeout(() => setShowBubble(false), 11000);
-    return () => {
-      clearTimeout(open);
-      clearTimeout(close);
-    };
-  }, []);
 
   return (
     <div className="fixed right-4 bottom-4 z-50 flex flex-col items-end gap-3 sm:right-5 sm:bottom-5">
-      <AnimatePresence>
-        {showBubble && (
-          <motion.div
-            initial={{ opacity: 0, y: 10, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.9 }}
-            transition={{ duration: 0.25 }}
-            role="status"
-            className="relative w-56 rounded-2xl rounded-br-md bg-white p-4 shadow-xl ring-1 ring-black/5"
-          >
-            <button
-              type="button"
-              onClick={() => setShowBubble(false)}
-              aria-label="Tutup pesan"
-              className="absolute top-2 right-2 text-gray-400 transition-colors hover:text-gray-600"
-            >
-              <X className="h-3.5 w-3.5" />
-            </button>
-            <p className="text-sm font-semibold text-primary">Butuh jasa sedot WC?</p>
-            <p className="mt-1 text-xs leading-relaxed text-text-light">
-              Tim kami siap membantu 24 jam. Chat sekarang untuk estimasi harga.
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <details
+        open
+        className="wa-bubble group/bubble relative w-60 rounded-2xl rounded-br-md bg-white p-4 shadow-xl ring-1 ring-black/5"
+      >
+        <summary className="absolute top-2 right-2 flex cursor-pointer list-none items-center rounded-full p-0.5 text-gray-400 transition-colors hover:text-gray-600 marker:content-none [&::-webkit-details-marker]:hidden">
+          <X className="h-3.5 w-3.5" />
+          <span className="sr-only">Tutup pesan</span>
+        </summary>
+        <p className="text-sm font-semibold text-primary">Butuh jasa sedot WC?</p>
+        <p className="mt-1 text-xs leading-relaxed text-text-light">
+          Tim kami siap membantu 24 jam. Chat sekarang untuk estimasi harga.
+        </p>
+      </details>
 
       <a
         href={waLink(wa)}
